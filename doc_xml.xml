@@ -1,0 +1,65 @@
+<transaction>
+	<entities>
+		<entity>
+			<lei>392rjkfajdf09ar</lei>
+			<country>USA</country>
+			<financial_entity>True</financial_entity>
+			<entity_type></entity_type> 
+		</entity>
+
+		<entity>
+			<lei>392rjkfajdf09ar</lei>
+			<country>GB</country>
+			<financial_entity>False</financial_entity>
+		</entity>
+	</entities>
+
+	<swap>
+		<facility></facility> # SEF, DCM, None (can't be None if both entities outside of US)
+		<seller></seller> # sellers LEI #
+		<asset_class></asset_class> # rates, credit, equity, commodity, fx
+	</swap>
+
+	<credit>
+		<floating_rate_payer></floating_rate_payer> # LEI no.
+		<swaption></swaption> # True or False
+	</credit>
+
+	<rates>
+		<trade_type></trade_type>
+			cap_floor, debt_option, exotic, fra, irs_basis, irs_fix_fix, irs_fix_float, ir_swap_inflation, ir_swap_ois, swaption, xccy_basis, xccy_fix_fix, xccy_fix_float
+		<option_buyer></option_buyer> # LEI (only for debt_option and swaption)
+		<fixed_rate_payers>
+			<fixed_rate_payer></fixed_rate_payer> (can be 2 when trade_type==cap_floor)
+			(only for cap_floor, fra, irs_fix_float, irswap_inflation, irs_swap_ois, fix_float)
+		</fixed_rate_payers> 
+	</rates>
+
+	<equity>
+		<performance_seller></performance_seller> # LEI
+		<agreed_rp></agreed_rp> # LEI - only if no performance_seller
+		<negative_affirmation></negative_affirmation> # True or False
+	</equity>
+	
+	<commodity>
+		<trade_type></trade_type> # fixed_floating_swap, option, swaption, option_strategies, other
+		<receiver_premium></receiver_premium> 
+		# only for these trade_types: option, swaption, option_strategies; not required for option_strategy
+		<seller_fixed_leg></seller_fixed_leg> # only when trade_type == fixed_floating_swap
+	</commodity>
+
+	<fx>
+		<trade_type></trade_type> # forward, ndf, option, ndo, simple_exotic, complex_exotic
+		<currencies>
+			<currency>
+				<lei></lei>
+				<currency_name></currency_name>
+			</currency>
+			<currency>
+				<lei></lei>
+				<currency_name></currency_name>
+			</currency>
+		</currencies>
+		<seller_option></seller_option> # LEI; only for trade_types: option, ndo, simple_exotic, complex_exotic
+	</fx>
+</transaction>
