@@ -185,7 +185,7 @@ def get_swap(entities):
     swap.append(asset_class_element)
 
     # Create asset_type element (pass entities to a function that creates the appropriate asset type)
-    asset_type = populate_asset_type(available_lei)
+    asset_type = populate_asset_type(asset_class, available_lei)
     # import pdb; pdb.set_trace()
 
     # Append asset_type element
@@ -195,7 +195,7 @@ def get_swap(entities):
     return swap
 
 
-def populate_asset_type(available_lei):
+def populate_asset_type(asset_class, available_lei):
     '''
         Takes available lei and returns an asset_type element
     '''
@@ -207,7 +207,7 @@ def populate_asset_type(available_lei):
                              'fx': create_swap_fx}
 
     # Select a random asset_type and get send off to corresponding creation function
-    asset_type_element = sample(available_asset_types.values(), 1)[0](available_lei)
+    asset_type_element = available_asset_types[asset_class](available_lei)
 
     # Return asset_type element
     return asset_type_element
@@ -230,6 +230,9 @@ def create_swap_rates(available_lei):
     # Add trade_type to rates_element
     trade_type_element = etree.Element('trade_type')
     trade_type_element.text = trade_type
+
+    # Append trade_type element to root (rates_element)
+    rates_element.append(trade_type_element)
 
     # Option_buyer (LEI) is required if trade_type is a debt_option or swaption
     if trade_type in ['debt_option', 'swaption']:
@@ -261,7 +264,7 @@ def create_swap_rates(available_lei):
 
         # Cap_floor trades can have two fixed rate payers.
         # In 33% of the time, add a second fixed rate payer if the trade_type is cap_floor
-        if trade_type == 'cap_floor' and randint(1, 3) % 2 == 0:
+        if trade_type in ['cap_floor', 'ir_swap_inflation'] and randint(1, 3) % 2 == 0:
             available_lei2.remove(payer1)
             if len(available_lei2) > 0:
                 fixed_rate_payer_element2 = etree.Element('fixed_rate_payer')
@@ -283,13 +286,13 @@ def create_swap_equity(available_lei):
     # Creates the negative_affirmation element and populates it (50-50)
     # Append to root element (credit_element)
     negative_affirmation_element = etree.Element('negative_affirmation')
-    negative_affirmation_element.text = 'True' if randint(2,3) % 2 == 0 else 'False'
+    negative_affirmation_element.text = available_lei[randint(0, len(available_lei)-1)] if randint(2,3) % 2 == 0 else 'False'
     equity_element.append(negative_affirmation_element)
 
     # Creates a 33% chance of not having a 'performance_seller'
     # Adds the agreed Reporting Party (RP) to the root element
     # Append to root element (equity_element)
-    if randint(1,3) % 2 == 0:
+    if randint(1,3) % 2 == 0 and negative_affirmation_element.text == 'False':
         agreed_rp_element = etree.Element('agreed_rp')
         agreed_rp_element.text = available_lei[randint(0, len(available_lei)-1)]
         equity_element.append(agreed_rp_element)
