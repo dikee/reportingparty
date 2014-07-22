@@ -11,6 +11,7 @@
 			<lei>392rjkfajdf09ar</lei>
 			<country>GB</country>
 			<financial_entity>False</financial_entity>
+			<entity_type></entity_type> 
 		</entity>
 	</entities>
 
@@ -30,7 +31,7 @@
 			cap_floor, debt_option, exotic, fra, irs_basis, irs_fix_fix, irs_fix_float, ir_swap_inflation, ir_swap_ois, swaption, xccy_basis, xccy_fix_fix, xccy_fix_float
 		<option_buyer></option_buyer> # LEI (only for debt_option and swaption)
 		<fixed_rate_payers>
-			<fixed_rate_payer></fixed_rate_payer> (can be 2 when trade_type==cap_floor)
+			<fixed_rate_payer></fixed_rate_payer> (can be 2 when trade_type==cap_floor or ir_swap_inflation)
 			(only for cap_floor, fra, irs_fix_float, irswap_inflation, irs_swap_ois, fix_float)
 		</fixed_rate_payers> 
 	</rates>
