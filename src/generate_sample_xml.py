@@ -1,3 +1,4 @@
+from sys import argv
 from lxml import etree
 import string as string
 from random import randint, sample
@@ -13,6 +14,7 @@ def generate_samples(no_transactions=100):
     Creates root node, begins sample generation process,
     saves result to an xml file
     '''
+    print 'starting..'
     
     # Create the parent element
     transactions = etree.Element("transactions")
@@ -478,4 +480,8 @@ def get_populate_lei_country(entities):
 
 
 if __name__ == "__main__":
-    generate_samples()
+    if len(argv) > 1:
+        no_transactions = int(argv[1])
+        generate_samples(no_transactions)
+    else:
+        generate_samples()

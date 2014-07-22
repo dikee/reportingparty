@@ -1,3 +1,4 @@
+from sys import argv
 from lxml import etree
 from StringIO import StringIO
 from datetime import datetime
@@ -391,7 +392,6 @@ def reverse_ascii_sort(swap_dict):
             return item2
 
 
-
 def get_further_check_result(result, old_kwargs):
         reporting_party_45 = result
         reporting_party_43 = reporting_party_45
@@ -404,4 +404,8 @@ def get_further_check_result(result, old_kwargs):
 
 
 if __name__ == '__main__':
-    process_file('sample_xml/18_51_2014_07_21.xml')
+    if len(argv) > 1:
+        filename = argv[1]
+    else:
+        filename = 'sample_xml/18_51_2014_07_21.xml'
+    process_file(filename)
